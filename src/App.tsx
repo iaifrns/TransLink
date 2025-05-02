@@ -15,6 +15,7 @@ import Settings from './pages/Settings';
 import Tables from './pages/Tables';
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
+import routesPath from './constants/routesPath';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -37,7 +38,7 @@ function App() {
           index
           element={
             <>
-              <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <PageTitle title="TransLink" />
               <ECommerce />
             </>
           }
@@ -52,10 +53,10 @@ function App() {
           }
         />
         <Route
-          path="/profile"
+          path={routesPath.PROFILE}
           element={
             <>
-              <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <PageTitle title="Profile | TransLink" />
               <Profile />
             </>
           }
@@ -124,19 +125,19 @@ function App() {
           }
         />
         <Route
-          path="/auth/signin"
+          path={routesPath.AUTH.LOGIN}
           element={
             <>
-              <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <PageTitle title="Signin | TransLink" />
               <SignIn />
             </>
           }
         />
         <Route
-          path="/auth/signup"
+          path={routesPath.AUTH.REGISTER}
           element={
             <>
-              <PageTitle title="Signup | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <PageTitle title="Signup | TransLink" />
               <SignUp />
             </>
           }

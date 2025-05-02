@@ -1,8 +1,7 @@
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
-import DefaultLayout from '../layout/DefaultLayout';
 import CoverOne from '../images/cover/cover-01.png';
 import userSix from '../images/user/user-06.png';
-import { Link } from 'react-router-dom';
+import DefaultLayout from '../layout/DefaultLayout';
 
 const Profile = () => {
   return (
@@ -91,26 +90,9 @@ const Profile = () => {
             <h3 className="mb-1.5 text-2xl font-semibold text-black dark:text-white">
               Danish Heilium
             </h3>
-            <p className="font-medium">Ui/Ux Designer</p>
-            <div className="mx-auto mt-4.5 mb-5.5 grid max-w-94 grid-cols-3 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">
-              <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
-                <span className="font-semibold text-black dark:text-white">
-                  259
-                </span>
-                <span className="text-sm">Posts</span>
-              </div>
-              <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
-                <span className="font-semibold text-black dark:text-white">
-                  129K
-                </span>
-                <span className="text-sm">Followers</span>
-              </div>
-              <div className="flex flex-col items-center justify-center gap-1 px-4 xsm:flex-row">
-                <span className="font-semibold text-black dark:text-white">
-                  2K
-                </span>
-                <span className="text-sm">Following</span>
-              </div>
+            <p>Dansish@113</p>
+            <div className="mx-auto mt-4.5 mb-5.5 max-w-94  rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">
+              <p className='text-center w-full font-bold'>Comptable</p>
             </div>
 
             <div className="mx-auto max-w-180">
@@ -126,7 +108,7 @@ const Profile = () => {
               </p>
             </div>
 
-            <div className="mt-6.5">
+            {/* <div className="mt-6.5">
               <h4 className="mb-3.5 font-medium text-black dark:text-white">
                 Follow me on
               </h4>
@@ -277,7 +259,7 @@ const Profile = () => {
                   </svg>
                 </Link>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
