@@ -16,6 +16,8 @@ import Tables from './pages/Tables';
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import routesPath from './constants/routesPath';
+import CreateUser from './pages/Users/CreateUser';
+import UserList from './pages/Users/UserList';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -139,6 +141,25 @@ function App() {
             <>
               <PageTitle title="Signup | TransLink" />
               <SignUp />
+            </>
+          }
+        />
+
+        <Route
+          path={routesPath.USER.CREATE}
+          element={
+            <>
+              <PageTitle title="Create User | TransLink" />
+              <CreateUser />
+            </>
+          }
+        />
+        <Route
+          path={routesPath.USER.LIST}
+          element={
+            <>
+              <PageTitle title="User List | TransLink" />
+              <UserList />
             </>
           }
         />

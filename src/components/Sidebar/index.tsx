@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import Logo from '../../images/logo/translinklogo.png';
+import routesPath from '../../constants/routesPath';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -145,9 +146,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item create user --> */}
               <li>
                 <NavLink
-                  to=""
+                  to={routesPath.USER.CREATE}
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('calendar') &&
+                    pathname.includes(routesPath.USER.CREATE) &&
                     'bg-graydark dark:bg-meta-4'
                   }`}
                 >
@@ -170,9 +171,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item user list --> */}
               <li>
                 <NavLink
-                  to=""
+                  to={routesPath.USER.LIST}
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('calendar') &&
+                    pathname.includes(routesPath.USER.LIST) &&
                     'bg-graydark dark:bg-meta-4'
                   }`}
                 >

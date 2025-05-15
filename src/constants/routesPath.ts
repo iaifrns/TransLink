@@ -4,6 +4,10 @@ const routesPath = {
     AUTH:{
         LOGIN: "/auth/signin",
         REGISTER: "/auth/signup"
+    },
+    USER: {
+        CREATE: "/user/create",
+        LIST: "/user/users"
     }
 }
 
