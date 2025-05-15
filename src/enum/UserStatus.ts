@@ -1,5 +1,5 @@
 export enum UserStatus {
-    COMPTABLE,
-    ADMIN,
-    SUPADMIN
+    COMPTABLE = "COMPTABLE",
+    ADMIN = "ADMIN",
+    SUPADMIN = "SUPADMIN"
 }

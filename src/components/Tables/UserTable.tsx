@@ -91,7 +91,7 @@ const UserTable = () => {
           </div>
           <div className="col-span-1 flex items-center">
             <p className="text-sm text-black dark:text-white">
-              ${product.position}
+              {product.position}
             </p>
           </div>
           <div className="col-span-1 flex items-center gap-4">
