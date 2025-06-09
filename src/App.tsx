@@ -19,6 +19,7 @@ import routesPath from './constants/routesPath';
 import CreateUser from './pages/Users/CreateUser';
 import UserList from './pages/Users/UserList';
 import EnterprisePage from './pages/enterprises';
+import { ModalProvider } from './context/ModalContextProvider';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -35,7 +36,7 @@ function App() {
   return loading ? (
     <Loader />
   ) : (
-    <>
+    <ModalProvider>
       <Routes>
         <Route
           index
@@ -174,7 +175,7 @@ function App() {
           }
         />
       </Routes>
-    </>
+    </ModalProvider>
   );
 }
 

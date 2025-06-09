@@ -1,13 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import { apiUrl } from '../../constants/apiRoutes';
 import DefaultLayout from '../../layout/DefaultLayout';
 import { EnterpirseType } from '../../types/enterprise';
+import EnterpriseItem from './components/EnterpriseItem';
+import { ModalContext } from '../../context/ModalContextProvider';
+import Loader from './components/Loader';
 
 const EnterprisePage = () => {
   const [searchText, setSearchText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [enterpirses, setEnterprises] = useState<EnterpirseType[]>([]);
+
+  const { setOpenCreateEnterpriseModal, enterprise : newEnterprise } = useContext(ModalContext);
 
   useEffect(() => {
     const getEnterprises = async () => {
@@ -28,6 +33,14 @@ const EnterprisePage = () => {
 
     getEnterprises();
   }, []);
+
+  useEffect(()=>{
+    if(newEnterprise){
+        const newArr = enterpirses;
+        newArr.push(newEnterprise)
+        setEnterprises(newArr)
+    }
+  },[newEnterprise])
 
   return (
     <DefaultLayout>
@@ -75,8 +88,14 @@ const EnterprisePage = () => {
               )}
             </>
           </div>
-          <button className="flex px-6 py-3 bg-primary rounded-md gap-2 items-center">
-            <p className="font-semibold text-white text-xl">New</p>
+          <button
+            className="flex px-6 py-2 bg-primary rounded-md gap-2 items-center"
+            onClick={() => {
+              setOpenCreateEnterpriseModal(true);
+              console.log('clicked');
+            }}
+          >
+            <p className="font-semibold text-white text-lg">New</p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24px"
@@ -96,15 +115,18 @@ const EnterprisePage = () => {
           </button>
         </div>
 
-        <div className="mt-4 flex flex-wrap">
+        <div className="mt-8 flex flex-wrap gap-4">
           {isLoading ? (
             <div className="w-full flex justify-center">
-              <div className="h-16 w-16 animate-spin rounded-full border-4 border-solid border-primary border-t-transparent"></div>
+              <Loader/>
             </div>
           ) : (
             <>
               {enterpirses.map((enterprise, ind) => (
-                <div key={enterprise.enterpriseCode + ind}>{enterprise.enterpriseName}</div>
+                <EnterpriseItem
+                  enterprise={enterprise}
+                  key={enterprise.enterpriseCode + ind}
+                />
               ))}
             </>
           )}
