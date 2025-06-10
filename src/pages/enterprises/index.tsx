@@ -1,18 +1,17 @@
 import { useContext, useEffect, useState } from 'react';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import { apiUrl } from '../../constants/apiRoutes';
-import DefaultLayout from '../../layout/DefaultLayout';
-import { EnterpirseType } from '../../types/enterprise';
-import EnterpriseItem from './components/EnterpriseItem';
+import { enterpriseColor } from '../../constants/colors';
 import { ModalContext } from '../../context/ModalContextProvider';
+import DefaultLayout from '../../layout/DefaultLayout';
+import EnterpriseItem from './components/EnterpriseItem';
 import Loader from './components/Loader';
 
 const EnterprisePage = () => {
   const [searchText, setSearchText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [enterpirses, setEnterprises] = useState<EnterpirseType[]>([]);
 
-  const { setOpenCreateEnterpriseModal, enterprise : newEnterprise } = useContext(ModalContext);
+  const { setOpenCreateEnterpriseModal, enterprises, setEnterprises } = useContext(ModalContext);
 
   useEffect(() => {
     const getEnterprises = async () => {
@@ -31,16 +30,10 @@ const EnterprisePage = () => {
       }
     };
 
-    getEnterprises();
-  }, []);
-
-  useEffect(()=>{
-    if(newEnterprise){
-        const newArr = enterpirses;
-        newArr.push(newEnterprise)
-        setEnterprises(newArr)
+    if(!enterprises){
+        getEnterprises();
     }
-  },[newEnterprise])
+  }, []);
 
   return (
     <DefaultLayout>
@@ -116,15 +109,16 @@ const EnterprisePage = () => {
         </div>
 
         <div className="mt-8 flex flex-wrap gap-4">
-          {isLoading ? (
+          {(isLoading || !enterprises) ? (
             <div className="w-full flex justify-center">
               <Loader/>
             </div>
           ) : (
             <>
-              {enterpirses.map((enterprise, ind) => (
+              {enterprises.map((enterprise, ind) => (
                 <EnterpriseItem
                   enterprise={enterprise}
+                  color={enterpriseColor[ind%(enterpriseColor.length)]}
                   key={enterprise.enterpriseCode + ind}
                 />
               ))}

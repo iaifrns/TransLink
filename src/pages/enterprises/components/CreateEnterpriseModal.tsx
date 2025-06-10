@@ -1,46 +1,54 @@
 import { useContext, useState } from 'react';
-import { ModalContext } from '../../../context/ModalContextProvider';
 import { apiUrl } from '../../../constants/apiRoutes';
-import { EnterpirseType } from '../../../types/enterprise';
+import { ModalContext } from '../../../context/ModalContextProvider';
 
 const CreateEnterpriseModal = () => {
   const {
     openCreateEnterpriseModal,
     setOpenCreateEnterpriseModal,
-    setEnterprise,
+    setEnterprises,
+    enterprises,
   } = useContext(ModalContext);
   const [enterpriseName, setEnterpriseName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (enterpriseName.length > 0) {
       setErrorMessage('');
       setIsLoading(true);
-      fetch(apiUrl.createEnterprise, {
+
+      const response = await fetch(apiUrl.createEnterprise, {
         method: 'Post',
         headers: {
-            'Content-Type' : 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ enterpriseName: enterpriseName }),
-      })
-        .then((result) => {
-          if (!result.ok) {
-            setErrorMessage('Something append please try later');
-          }
-        })
-        .then((data) => {
-            console.log(data)
-          setEnterprise(data as any as EnterpirseType);
-        })
-        .catch((e) => console.log(e))
-        .finally(() => {
-          setEnterpriseName('');
-          setErrorMessage('');
-          setOpenCreateEnterpriseModal(false);
-          setIsLoading(false)
-          alert('Enterprise created');
-        });
+      });
+
+      if (!response.ok) {
+        setErrorMessage(
+          'Check if the name you are using is not used and try again',
+        );
+        setIsLoading(false);
+        console.log(response);
+        return;
+      }
+
+      const result = await response.json();
+
+      let newArr;
+      if (enterprises) {
+        newArr = enterprises;
+        newArr.push(result);
+      } else {
+        newArr = [result];
+      }
+      setEnterprises(newArr);
+      setIsLoading(false);
+      setEnterpriseName('');
+      setOpenCreateEnterpriseModal(false);
+      setErrorMessage('');
     } else {
       setErrorMessage('please enter the informations');
     }
@@ -84,7 +92,11 @@ const CreateEnterpriseModal = () => {
         </div>
         <button
           className="bg-primary text-white font-semibold p-3 rounded-md flex justify-center"
-          onClick={handleSubmit}
+          onClick={() => {
+            if (!isLoading) {
+              handleSubmit();
+            }
+          }}
         >
           {isLoading ? (
             <div className="h-[24px] w-[24px] animate-spin rounded-full border-4 border-solid border-white border-t-transparent"></div>
