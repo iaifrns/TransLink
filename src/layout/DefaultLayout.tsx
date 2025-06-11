@@ -2,6 +2,7 @@ import React, { ReactNode, useState } from 'react';
 import Header from '../components/Header/index';
 import Sidebar from '../components/Sidebar/index';
 import CreateEnterpriseModal from '../pages/enterprises/components/CreateEnterpriseModal';
+import EnterpriseDetail from '../pages/enterprises/components/EnterpriseDetail';
 
 const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,6 +27,9 @@ const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
               {/* create enterprise Modal */}
               <CreateEnterpriseModal />
               {/* create enterprise Modal */}
+              {/* enterprise detail Modal */}
+              <EnterpriseDetail />
+              {/* enterprise detail Modal */}
               {children}
             </div>
           </main>

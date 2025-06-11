@@ -11,7 +11,8 @@ const EnterprisePage = () => {
   const [searchText, setSearchText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const { setOpenCreateEnterpriseModal, enterprises, setEnterprises } = useContext(ModalContext);
+  const { setOpenCreateEnterpriseModal, enterprises, setEnterprises } =
+    useContext(ModalContext);
 
   useEffect(() => {
     const getEnterprises = async () => {
@@ -30,8 +31,8 @@ const EnterprisePage = () => {
       }
     };
 
-    if(!enterprises){
-        getEnterprises();
+    if (!enterprises) {
+      getEnterprises();
     }
   }, []);
 
@@ -109,19 +110,21 @@ const EnterprisePage = () => {
         </div>
 
         <div className="mt-8 flex flex-wrap gap-4">
-          {(isLoading || !enterprises) ? (
+          {isLoading || !enterprises ? (
             <div className="w-full flex justify-center">
-              <Loader/>
+              <Loader />
             </div>
           ) : (
             <>
-              {enterprises.map((enterprise, ind) => (
-                <EnterpriseItem
-                  enterprise={enterprise}
-                  color={enterpriseColor[ind%(enterpriseColor.length)]}
-                  key={enterprise.enterpriseCode + ind}
-                />
-              ))}
+              {enterprises
+                .sort((_, b) => (b.active ? 1 : 0))
+                .map((enterprise, ind) => (
+                  <EnterpriseItem
+                    enterprise={enterprise}
+                    color={enterpriseColor[ind % enterpriseColor.length]}
+                    key={enterprise.enterpriseCode + ind}
+                  />
+                ))}
             </>
           )}
         </div>
