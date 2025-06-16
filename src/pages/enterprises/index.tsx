@@ -6,12 +6,16 @@ import { ModalContext } from '../../context/ModalContextProvider';
 import DefaultLayout from '../../layout/DefaultLayout';
 import EnterpriseItem from './components/EnterpriseItem';
 import Loader from './components/Loader';
+import EnterpriseDetail from './components/EnterpriseDetail';
+import CreateEnterpriseModal from './components/CreateEnterpriseModal';
+import { EnterpirseType } from '../../types/enterprise';
 
 const EnterprisePage = () => {
   const [searchText, setSearchText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [enterprise, setEnterprise] = useState<EnterpirseType | null>(null)
 
-  const { setOpenCreateEnterpriseModal, enterprises, setEnterprises } =
+  const { setOpenCreateEnterpriseModal, enterprises, setEnterprises, setOpenEnterpriseDetailModal } =
     useContext(ModalContext);
 
   useEffect(() => {
@@ -39,6 +43,8 @@ const EnterprisePage = () => {
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Enterprises" />
+      <EnterpriseDetail enterprise={enterprise} />
+      <CreateEnterpriseModal />
       <div className="rounded-sm border p-4 border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex w-full justify-between items-center">
           <div className="flex gap-2 items-center border border-stone-400 rounded-md p-1">
@@ -123,6 +129,10 @@ const EnterprisePage = () => {
                     enterprise={enterprise}
                     color={enterpriseColor[ind % enterpriseColor.length]}
                     key={enterprise.enterpriseCode + ind}
+                    onclick={()=>{
+                      setEnterprise(enterprise)
+                      setOpenEnterpriseDetailModal(true)
+                    }}
                   />
                 ))}
             </>

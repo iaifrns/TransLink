@@ -1,23 +1,18 @@
-import { useContext } from 'react';
 import { EnterpirseType } from '../../../types/enterprise';
-import { ModalContext } from '../../../context/ModalContextProvider';
 
 const EnterpriseItem = ({
   enterprise,
   color,
+  onclick
 }: {
   enterprise: EnterpirseType;
   color: string;
+  onclick: () => void
 }) => {
-  const { setOpenEnterpriseDetailModal, setEnterprise } =
-    useContext(ModalContext);
   return (
     <div
       className="rounded-md border p-3 border-stone-300 bg-stone-100 shadow-3 dark:border-stone-600 dark:bg-strokedark flex gap-4 items-center w-[320px] cursor-default"
-      onClick={() => {
-        setEnterprise(enterprise);
-        setOpenEnterpriseDetailModal(true);
-      }}
+      onClick={onclick}
     >
       <div
         className="w-[80px] h-[80px] rounded-full flex items-center justify-center"

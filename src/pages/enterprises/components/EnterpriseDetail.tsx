@@ -1,21 +1,20 @@
 import { useContext, useEffect, useState } from 'react';
-import { ModalContext } from '../../../context/ModalContextProvider';
 import { apiUrl } from '../../../constants/apiRoutes';
+import { ModalContext } from '../../../context/ModalContextProvider';
 import { EnterpirseType } from '../../../types/enterprise';
 
-const EnterpriseDetail = () => {
+const EnterpriseDetail = ({enterprise}: {enterprise:EnterpirseType | null}) => {
   const {
     openEnterpriseDetailModal,
     setOpenEnterpriseDetailModal,
-    enterprise,
     enterprises,
     setEnterprises,
-    setEnterprise
   } = useContext(ModalContext);
   const [active, setActive] = useState(enterprise?.active);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => console.log(enterprise), [active]);
+  useEffect(()=>{if(enterprise){
+    setActive(enterprise.active)
+  }},[enterprise])
 
   const handleUpdateEnterprise = async () => {
     setIsLoading(true);
@@ -38,6 +37,7 @@ const EnterpriseDetail = () => {
         setIsLoading(false);
         return;
       }
+      console.log(response)
       const result = await response.json();
       console.log("here")
       if (enterprises) {
@@ -71,7 +71,6 @@ const EnterpriseDetail = () => {
             height="24px"
             viewBox="0 0 24 24"
             onClick={() => {
-                setEnterprise(null)
                 setOpenEnterpriseDetailModal(false)}}
             className="cursor-pointer"
           >
