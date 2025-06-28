@@ -20,6 +20,7 @@ import CreateUser from './pages/Users/CreateUser';
 import UserList from './pages/Users/UserList';
 import EnterprisePage from './pages/enterprises';
 import { ModalProvider } from './context/ModalContextProvider';
+import RoleManagementPage from './pages/Role';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -169,8 +170,17 @@ function App() {
           path={routesPath.ENTERPRISES}
           element={
             <>
-              <PageTitle title="User List | TransLink" />
+              <PageTitle title="Enterprise | TransLink" />
               <EnterprisePage />
+            </>
+          }
+        />
+        <Route
+          path={routesPath.ROLE}
+          element={
+            <>
+              <PageTitle title="Roles | TransLink" />
+              <RoleManagementPage />
             </>
           }
         />

@@ -9,26 +9,34 @@ import Loader from './components/Loader';
 import EnterpriseDetail from './components/EnterpriseDetail';
 import CreateEnterpriseModal from './components/CreateEnterpriseModal';
 import { EnterpirseType } from '../../types/enterprise';
+import EmptyArrayDisplay from '../../components/EmptyArrayDisplay';
 
 const EnterprisePage = () => {
   const [searchText, setSearchText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [enterprise, setEnterprise] = useState<EnterpirseType | null>(null)
+  const [enterprise, setEnterprise] = useState<EnterpirseType | null>(null);
 
-  const { setOpenCreateEnterpriseModal, enterprises, setEnterprises, setOpenEnterpriseDetailModal } =
-    useContext(ModalContext);
+  const {
+    setOpenCreateEnterpriseModal,
+    enterprises,
+    setEnterprises,
+    setOpenEnterpriseDetailModal,
+  } = useContext(ModalContext);
 
   useEffect(() => {
     const getEnterprises = async () => {
       setIsLoading(true);
       try {
         const response = await fetch(apiUrl.getEnterprises);
+        console.log('here');
+        console.log(response);
         if (!response.ok)
           return alert('A problem occured please try later ...');
 
         const result = await response.json();
         setEnterprises(result);
       } catch (e) {
+        setEnterprises([]);
         console.log(e);
       } finally {
         setIsLoading(false);
@@ -129,14 +137,15 @@ const EnterprisePage = () => {
                     enterprise={enterprise}
                     color={enterpriseColor[ind % enterpriseColor.length]}
                     key={enterprise.enterpriseCode + ind}
-                    onclick={()=>{
-                      setEnterprise(enterprise)
-                      setOpenEnterpriseDetailModal(true)
+                    onclick={() => {
+                      setEnterprise(enterprise);
+                      setOpenEnterpriseDetailModal(true);
                     }}
                   />
                 ))}
             </>
           )}
+          {enterprises?.length == 0 && <EmptyArrayDisplay />}
         </div>
       </div>
     </DefaultLayout>
