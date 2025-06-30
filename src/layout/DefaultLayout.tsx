@@ -1,9 +1,24 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import Header from '../components/Header/index';
 import Sidebar from '../components/Sidebar/index';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import routesPath from '../constants/routesPath';
 
 const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const authUser = useSelector((state: RootState) => state.user)
+
+  const navigateTo = useNavigate()
+
+  useEffect(()=>{
+    console.log(authUser)
+    if(!authUser) {
+      navigateTo(routesPath.AUTH.LOGIN)
+    }
+  },[authUser])
 
   return (
     <div className="dark:bg-boxdark-2 dark:text-bodydark">

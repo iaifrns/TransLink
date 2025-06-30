@@ -1,15 +1,108 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
+import { apiUrl } from '../../constants/apiRoutes';
+import routesPath from '../../constants/routesPath';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
-import routesPath from '../../constants/routesPath';
+import { RootState } from '../../store/store';
+import { login } from '../../slices/userSlice';
 
 const SignIn: React.FC = () => {
   const navigateTo = useNavigate();
+  const [username, setUsername] = useState({
+    value: '',
+    error: false,
+    message: '',
+  });
+  const [password, setPassword] = useState({
+    value: '',
+    error: false,
+    message: '',
+  });
+
+  const resetValues = () => {
+    setUsername({
+      ...username,
+      message: '',
+      error: false,
+    });
+    setPassword({
+      ...password,
+      message: '',
+      error: false,
+    });
+  };
+  const [isLoading, setIsLoading] = useState(false);
+
+  const authUser = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (authUser) {
+      navigateTo(routesPath.DASHBOARD);
+    }
+  }, [authUser]);
+
+  const authenticateUser = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(apiUrl.login, {
+        method: 'Post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username.value,
+          password: password.value,
+        }),
+      });
+
+      if (!response.ok)
+        return alert('something went wrong please try again later');
+
+      const result = await response.json();
+      dispatch(login(result));
+      navigateTo(routesPath.DASHBOARD);
+    } catch (e) {
+      console.log(e);
+      alert(
+        'An error occured please try again if the problem persiste call the admin',
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleNavitionLogin = () => {
-    navigateTo(routesPath.DASHBOARD);
+    switch (true) {
+      case username.value.length < 3:
+        setUsername({
+          ...username,
+          message: 'please enter your username',
+          error: true,
+        });
+        break;
+
+      case password.value.length < 3:
+        setUsername({
+          ...username,
+          message: '',
+          error: false,
+        });
+        setPassword({
+          ...password,
+          message: 'please enter your password',
+          error: true,
+        });
+        break;
+
+      default:
+        resetValues();
+        authenticateUser();
+        break;
+    }
   };
 
   return (
@@ -157,12 +250,11 @@ const SignIn: React.FC = () => {
 
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
-              <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Sign In to TransLink
               </h2>
 
-              <form>
+              <div>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Username
@@ -171,7 +263,13 @@ const SignIn: React.FC = () => {
                     <input
                       type="text"
                       placeholder="Enter your username"
-                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      className={`w-full rounded-lg border ${
+                        username.error ? 'border-red-300' : 'border-stroke'
+                      } bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary`}
+                      value={username.value}
+                      onChange={(e) =>
+                        setUsername({ ...username, value: e.target.value })
+                      }
                     />
 
                     <span className="absolute right-4 top-4">
@@ -192,6 +290,13 @@ const SignIn: React.FC = () => {
                       </svg>
                     </span>
                   </div>
+                  <p
+                    className={`${
+                      username.error ? 'opacity-100 block' : 'hidden opacity-0'
+                    } transition-all ease-out text-red-400`}
+                  >
+                    {username.message}
+                  </p>
                 </div>
 
                 <div className="mb-6">
@@ -202,7 +307,13 @@ const SignIn: React.FC = () => {
                     <input
                       type="password"
                       placeholder="6+ Characters, 1 Capital letter"
-                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      className={`w-full rounded-lg border ${
+                        password.error ? 'border-red-300' : 'border-stroke'
+                      } bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary`}
+                      value={password.value}
+                      onChange={(e) =>
+                        setPassword({ ...password, value: e.target.value })
+                      }
                     />
 
                     <span className="absolute right-4 top-4">
@@ -227,6 +338,13 @@ const SignIn: React.FC = () => {
                       </svg>
                     </span>
                   </div>
+                  <p
+                    className={`${
+                      password.error ? 'opacity-100 block' : 'hidden opacity-0'
+                    } transition-all ease-out text-red-400`}
+                  >
+                    {password.message}
+                  </p>
                 </div>
 
                 <div className="mb-5">
@@ -234,7 +352,28 @@ const SignIn: React.FC = () => {
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                     onClick={handleNavitionLogin}
                   >
-                    Sign In
+                    {isLoading ? (
+                      <div className="flex justify-center items-center w-full">
+                        <svg
+                          className="animate-spin"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M12 3a9 9 0 1 0 9 9"
+                          />
+                        </svg>
+                      </div>
+                    ) : (
+                      <p>Sign In</p>
+                    )}
                   </button>
                 </div>
 
@@ -249,7 +388,7 @@ const SignIn: React.FC = () => {
                     </Link>
                   </p>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>

@@ -21,6 +21,9 @@ import UserList from './pages/Users/UserList';
 import EnterprisePage from './pages/enterprises';
 import { ModalProvider } from './context/ModalContextProvider';
 import RoleManagementPage from './pages/Role';
+import { Provider } from 'react-redux';
+import { persistor, store } from './store/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -38,153 +41,157 @@ function App() {
     <Loader />
   ) : (
     <ModalProvider>
-      <Routes>
-        <Route
-          index
-          element={
-            <>
-              <PageTitle title="TransLink" />
-              <ECommerce />
-            </>
-          }
-        />
-        <Route
-          path="/calendar"
-          element={
-            <>
-              <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Calendar />
-            </>
-          }
-        />
-        <Route
-          path={routesPath.PROFILE}
-          element={
-            <>
-              <PageTitle title="Profile | TransLink" />
-              <Profile />
-            </>
-          }
-        />
-        <Route
-          path="/forms/form-elements"
-          element={
-            <>
-              <PageTitle title="Form Elements | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <FormElements />
-            </>
-          }
-        />
-        <Route
-          path="/forms/form-layout"
-          element={
-            <>
-              <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <FormLayout />
-            </>
-          }
-        />
-        <Route
-          path="/tables"
-          element={
-            <>
-              <PageTitle title="Tables | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Tables />
-            </>
-          }
-        />
-        <Route
-          path="/settings"
-          element={
-            <>
-              <PageTitle title="Settings | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Settings />
-            </>
-          }
-        />
-        <Route
-          path="/chart"
-          element={
-            <>
-              <PageTitle title="Basic Chart | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Chart />
-            </>
-          }
-        />
-        <Route
-          path="/ui/alerts"
-          element={
-            <>
-              <PageTitle title="Alerts | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Alerts />
-            </>
-          }
-        />
-        <Route
-          path="/ui/buttons"
-          element={
-            <>
-              <PageTitle title="Buttons | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Buttons />
-            </>
-          }
-        />
-        <Route
-          path={routesPath.AUTH.LOGIN}
-          element={
-            <>
-              <PageTitle title="Signin | TransLink" />
-              <SignIn />
-            </>
-          }
-        />
-        <Route
-          path={routesPath.AUTH.REGISTER}
-          element={
-            <>
-              <PageTitle title="Signup | TransLink" />
-              <SignUp />
-            </>
-          }
-        />
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Routes>
+            <Route
+              index
+              element={
+                <>
+                  <PageTitle title="TransLink" />
+                  <ECommerce />
+                </>
+              }
+            />
+            <Route
+              path="/calendar"
+              element={
+                <>
+                  <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                  <Calendar />
+                </>
+              }
+            />
+            <Route
+              path={routesPath.PROFILE}
+              element={
+                <>
+                  <PageTitle title="Profile | TransLink" />
+                  <Profile />
+                </>
+              }
+            />
+            <Route
+              path="/forms/form-elements"
+              element={
+                <>
+                  <PageTitle title="Form Elements | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                  <FormElements />
+                </>
+              }
+            />
+            <Route
+              path="/forms/form-layout"
+              element={
+                <>
+                  <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                  <FormLayout />
+                </>
+              }
+            />
+            <Route
+              path="/tables"
+              element={
+                <>
+                  <PageTitle title="Tables | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                  <Tables />
+                </>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <>
+                  <PageTitle title="Settings | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                  <Settings />
+                </>
+              }
+            />
+            <Route
+              path="/chart"
+              element={
+                <>
+                  <PageTitle title="Basic Chart | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                  <Chart />
+                </>
+              }
+            />
+            <Route
+              path="/ui/alerts"
+              element={
+                <>
+                  <PageTitle title="Alerts | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                  <Alerts />
+                </>
+              }
+            />
+            <Route
+              path="/ui/buttons"
+              element={
+                <>
+                  <PageTitle title="Buttons | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                  <Buttons />
+                </>
+              }
+            />
+            <Route
+              path={routesPath.AUTH.LOGIN}
+              element={
+                <>
+                  <PageTitle title="Signin | TransLink" />
+                  <SignIn />
+                </>
+              }
+            />
+            <Route
+              path={routesPath.AUTH.REGISTER}
+              element={
+                <>
+                  <PageTitle title="Signup | TransLink" />
+                  <SignUp />
+                </>
+              }
+            />
 
-        <Route
-          path={routesPath.USER.CREATE}
-          element={
-            <>
-              <PageTitle title="Create User | TransLink" />
-              <CreateUser />
-            </>
-          }
-        />
-        <Route
-          path={routesPath.USER.LIST}
-          element={
-            <>
-              <PageTitle title="User List | TransLink" />
-              <UserList />
-            </>
-          }
-        />
-        <Route
-          path={routesPath.ENTERPRISES}
-          element={
-            <>
-              <PageTitle title="Enterprise | TransLink" />
-              <EnterprisePage />
-            </>
-          }
-        />
-        <Route
-          path={routesPath.ROLE}
-          element={
-            <>
-              <PageTitle title="Roles | TransLink" />
-              <RoleManagementPage />
-            </>
-          }
-        />
-      </Routes>
+            <Route
+              path={routesPath.USER.CREATE}
+              element={
+                <>
+                  <PageTitle title="Create User | TransLink" />
+                  <CreateUser />
+                </>
+              }
+            />
+            <Route
+              path={routesPath.USER.LIST}
+              element={
+                <>
+                  <PageTitle title="User List | TransLink" />
+                  <UserList />
+                </>
+              }
+            />
+            <Route
+              path={routesPath.ENTERPRISES}
+              element={
+                <>
+                  <PageTitle title="Enterprise | TransLink" />
+                  <EnterprisePage />
+                </>
+              }
+            />
+            <Route
+              path={routesPath.ROLE}
+              element={
+                <>
+                  <PageTitle title="Roles | TransLink" />
+                  <RoleManagementPage />
+                </>
+              }
+            />
+          </Routes>
+        </PersistGate>
+      </Provider>
     </ModalProvider>
   );
 }
